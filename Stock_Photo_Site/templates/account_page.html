@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user.username}}</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/ baguetteBox.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/thumbnail-gallery.css' %}">
+
+</head>
+<body>
+
+
+    <div class="tz-gallery">
+        <div class="row">
+          {% for pic in photos %}
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <a class="lightbox" href="{{pic.image.url}}">
+                        <img src="{{pic.image.url}}" alt="{{ pic.title }}">
+                    </a>
+                    <div class="caption">
+                        <h3>{{ pic.title }}</h3>
+                        <h4>Category: {{ pic.category_name }}</h4>
+                        
+                       </form>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}  
+        </div>
+
+    </div>
+
+
+    
+
+</body>
+</html>

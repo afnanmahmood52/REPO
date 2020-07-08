@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  {% load static %}
+  <link href="{% static 'css/clean_search.css' %}" type="text/css" rel="stylesheet">
+  
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">PicPlanet</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav navbar-nav pull-left">
+        <li class="nav-item active">
+          <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav ml-auto">
+
+        <li class="upload-iamge">
+        <a class="nav-link" href="/upload_photo">Upload</a>
+        </li>
+
+        {% if user.is_authenticated %}
+
+          <li class="nav-item">
+          <form class="logout-link" method="POST">
+            <a class="nav-link" href="/account">{{user.username}}</a>
+          </form>
+          </li>
+
+          <li class="nav-item">
+          <form class="logout-link" method="POST">
+            {% csrf_token %}
+            <a class="nav-link" href="/logout">Log Out</a>
+          </form>
+          </li>
+            
+        {% else %}
+
+          <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+          </li>
+
+          <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+          </li>
+
+        {% endif %}
+
+        </li>
+     </ul>
+
+    </div>
+  </nav>
+
+</head>
+  
+
+<body>
+
+  <section class="search-banner text-white py-3 form-arka-plan" id="search-banner">
+    <div class="container py-5 my-5">
+        <div class="row text-center pb-4">
+            <div class="col-md-12">
+                <h2 class="text-white siyah-cerceve">Search Thousand of Images in one click</h2>
+            </div>
+        </div>
+
+        <form method="GET" action="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card acik-renk-form">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                  
+                                    <select id="iller" class="form-control" name='catg'> 
+                                        {% for c in category %}
+                                        <option>{{ c.category_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                  
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-md-9">
+                              <div class="form-group ">
+                                  <input type="text" name='q' class="form-control" placeholder="Search Name of Image" value = {{request.GET.q}}>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <button type="submit" class="btn btn-success"  pl-5 pr-5">Search</button>
+                            </div>
+                        
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+      </form>
+
+    </div>
+</section>
+  
+
+  <div class="container gallery-container">
+  
+    
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+    
+  
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/thumbnail-gallery.css' %}">
+    
+    
+    {% if photos_queried %}
+    <div class="tz-gallery">
+        <div class="row">
+          {% for pic in photos_queried %}
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <a class="lightbox" href="{{pic.image.url}}">
+                        <img src="{{pic.image.url}}" alt="{{ pic.title }}">
+                    </a>
+                    <div class="caption">
+                        <h3>{{ pic.title }}</h3>
+                        <h4>Category: {{ pic.category_name }}</h4>
+                        <h4>Uploaded By: {{ pic.upload_by }}</h4>
+
+                        <form method="get" action="{{pic.image.url}}">
+                          {% if user.is_authenticated %}
+                          <a href="{{pic.image.url}}" download>
+                            DOWNLOAD
+                          </a>
+                          {% endif %}
+                       </form>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}  
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+
+
+{% else %}
+<img src="{% static 'images/image_not_found.png' %}" alt= "not_found" class="center_img_not_found">
+
+{% endif %}
+
+<!-- Footer -->
+<footer class="page-footer font-small mdb-color darken-4">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://www.facebook.com/afnan.mahmood.79"> Made by Afnan Mahmood</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+
+</body>
+</html>

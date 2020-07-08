@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload_Photo</title>
+</head>
+<body>
+    <form method="POST" class="form-group" enctype="multipart/form-data"> 
+        <!---- {% load crispy_forms_tags %}   -->
+        <!---- {% csrf_token %}   -->
+        <!---- {{form|crispy}}   -->
+        
+        {% csrf_token %}
+
+        <p>Tilte of Image</p>
+        {{form.title}}
+
+        <p>Category</p>
+        {{form.category_name}}
+
+        <p>Description</p>
+        {{form.desc}}
+
+        <p>Image File</p>
+        {{form.image}}
+
+        <button type="submit">Save</button>
+    </form>
+
+
+</body>
+</html>
